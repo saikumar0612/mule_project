@@ -1,4 +1,4 @@
-{
+pipeline {
  agent any
  environment {
     ANYPOINT = credentials('ANYPOINT')
