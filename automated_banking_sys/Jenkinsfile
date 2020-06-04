@@ -11,14 +11,14 @@ pipeline {
  	}
  	stage ('Build'){
  		steps {
- 			withMaven(maven:'mavenOnline'){
+ 			maven(maven:'mavenOnline'){
  				bat 'mvn -f automated_banking_sys/pom.xml clean install'
  			}
  		}
  	}
  	stage ('Deploy'){
  		steps {
- 			withMaven(maven:'mavenOnline'){
+ 			maven(maven:'mavenOnline'){
  				bat 'mvn -f automated_banking_sys/pom.xml package deploy  -Dusername=Test01234 -Dpassword=Test01234 -Denvironment=Sandbox -DmuleDeploy'
  			}
  		}
