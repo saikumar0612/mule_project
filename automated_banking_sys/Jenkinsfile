@@ -1,0 +1,28 @@
+pipeline{
+ agent any
+ environment {
+    ANYPOINT = credentials('ANYPOINT')
+ }
+ stages {
+	stage ('Unit Test'){
+ 		steps {
+ 			echo 'We do not have test cases'
+ 		}
+ 	}
+ 	stage ('Build'){
+ 		steps {
+ 			withMaven(maven:'mavenOnline'){
+ 				sh 'mvn -f automated_banking_sys/pom.xml clean install'
+ 			}
+ 		}
+ 	}
+ 	stage ('Deploy'){
+ 		steps {
+ 			withMaven(maven:'mavenOnline'){
+ 				sh 'mvn -f automated_banking_sys/pom.xml package deploy  -Dusername=Test01234 -Dpassword=Test01234 -Denvironment=Sandbox -DmuleDeploy'
+ 			}
+ 		}
+ 	}
+ }
+
+}
