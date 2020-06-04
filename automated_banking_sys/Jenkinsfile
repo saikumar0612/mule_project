@@ -3,6 +3,10 @@ pipeline {
  environment {
     ANYPOINT = credentials('ANYPOINT')
  }
+tools {
+        maven 'mavenOnline' 
+    }
+
  stages {
 	stage ('Unit Test'){
  		steps {
