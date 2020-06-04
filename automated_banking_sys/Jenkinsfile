@@ -3,9 +3,6 @@ pipeline {
  environment {
     ANYPOINT = credentials('ANYPOINT')
  }
-tools {
-        maven 'mavenOnline' 
-    }
 
  stages {
 	stage ('Unit Test'){
@@ -15,14 +12,14 @@ tools {
  	}
  	stage ('Build'){
  		steps {
- 			maven(maven:'mavenOnline'){
+ 			withMaven(maven:'mavenOnline'){
  				bat 'mvn -f automated_banking_sys/pom.xml clean install'
  			}
  		}
  	}
  	stage ('Deploy'){
  		steps {
- 			maven(maven:'mavenOnline'){
+ 			withMaven(maven:'mavenOnline'){
  				bat 'mvn -f automated_banking_sys/pom.xml package deploy  -Dusername=Test01234 -Dpassword=Test01234 -Denvironment=Sandbox -DmuleDeploy'
  			}
  		}
