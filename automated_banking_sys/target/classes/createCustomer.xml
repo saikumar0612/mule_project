@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:xml-module="http://www.mulesoft.org/schema/mule/xml-module"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd
+http://www.mulesoft.org/schema/mule/xml-module http://www.mulesoft.org/schema/mule/xml-module/current/mule-xml-module.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd">
+	
+	
+	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="57cc7a3f-e393-456e-b623-574e9f2f31e5" >
+		<http:request-connection host="demo4692459.mockable.io" />
+	</http:request-config>
+	<jms:config name="JMS_Config" doc:name="JMS Config" doc:id="4ea423ea-e2ad-4b74-822f-7be4d8346558" >
+		<jms:active-mq-connection >
+			<jms:factory-configuration />
+		</jms:active-mq-connection>
+	</jms:config>
+	<flow name="createCustomerFlow" doc:id="d993a0ca-242a-44d0-9944-d9ee291b014b" >
+		<logger level="INFO" doc:name="Logging the payload" doc:id="7d44a2b5-771b-43c8-9004-01d342a4d519" message="Got request for create customer.: #[payload]" category="createCustomer"/>
+		<!-- <json:validate-schema doc:name="Validate schema" doc:id="6bdc9c37-911c-4f62-a9cc-c477714db894" schema="customer_request_schema.schema"/> -->
+		<logger level="INFO" doc:name="Logger" doc:id="dd043375-9fd2-4215-8c87-05eab1a30926" message="Secure Password: ${secure::database.password}"/>
+		<ee:transform doc:name="Setting Vars- currentTime, customerId, originalPayload" doc:id="0cc137f5-f54e-4021-85f6-a8630c4d7ad5" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="currentTime" ><![CDATA[%dw 2.0
+output application/java
+---
+now() as String {format: "y-MM-dd hh:mm:ss"}]]></ee:set-variable>
+				<ee:set-variable variableName="customerId" ><![CDATA[%dw 2.0
+output application/java
+---
+'CyVnJjRnFY' ++ randomInt(100000)]]></ee:set-variable>
+				<ee:set-variable variableName="originalPayload" ><![CDATA[%dw 2.0
+output application/java
+---
+payload]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<choice doc:name="Choice" doc:id="9dd49202-57fa-470c-a734-342e01fc3242" >
+			<when expression="#[payload != null and sizeOf(payload) &gt; 0]">
+				<choice doc:name="Choice" doc:id="5015aaad-fe29-44b7-96a2-3e26570d8210">
+			<when expression="#[vars.customerId != null or vars.customerId?]">
+						<scatter-gather doc:name="Scatter-Gather" doc:id="106b105e-ee26-4daa-8735-ab8efd9b1676">
+							<route >
+								<db:insert doc:name="Insert Bank Details" doc:id="af3c1d68-4ff7-4497-81d2-4cdd2d1edb26" config-ref="Database_Config">
+			<db:sql>Insert into abs_bank_details (customer_id, account_number, bank_name, branch_id, account_type, overall_balance) values (:customer_id, :account_number, :bank_name, :branch_id, :account_type, :overall_balance)</db:sql>
+			<db:input-parameters><![CDATA[#[{'customer_id': vars.customerId, 'account_number': payload.virtual_bank_account.account_number, 'bank_name': payload.virtual_bank_account.bank_name, 'branch_id': payload.virtual_bank_account.branch_id, 'account_type': payload.virtual_bank_account.account_type, 'overall_balance': payload.virtual_bank_account.balance.amount}]]]></db:input-parameters>
+		</db:insert>
+							</route>
+							<route >
+								<try doc:name="Try" doc:id="64c7c748-e7b0-4ce8-b8b8-35dcdb03ac81" >
+									<db:insert doc:name="Insert Customer Details" doc:id="eda728c4-b8e7-43d4-8dd3-620f435a5d2c" config-ref="Database_Config">
+			<db:sql>Insert into abs_customer_details (customer_id, email, first_name, last_name, contact,created_at, last_updated_at) values (:customer_id, :email, :first_name, :last_name, :contact, :created_at, :last_updated_at)</db:sql>
+			<db:input-parameters><![CDATA[#[{'customer_id': vars.customerId, 'email':payload.customer.email, 'first_name':payload.customer.first_name, 'last_name': payload.customer.last_name, 'contact': payload.customer.contact, 'created_at': vars.currentTime, 'last_updated_at': vars.currentTime}]]]></db:input-parameters>
+		</db:insert>
+									<error-handler >
+										<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="7646a6ad-884b-48d5-a143-512674a315b6" />
+									</error-handler>
+								</try>
+							</route>
+						</scatter-gather>
+				<set-payload value="#[vars.originalPayload]" doc:name="Set Payload" doc:id="60479e6d-d5ed-4d64-abb1-557c70e5f05a" />
+						<logger level="INFO" doc:name="Logger" doc:id="ee27408b-d638-4e75-9e3d-6f42c1bac72a" message="After Scatter Gather, Data Inserted. #[payload]" />
+				<ee:transform doc:name="Transform Message" doc:id="b0df9c7d-5299-4ce7-a692-f36917717293">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"status":{
+		"code": 201,
+		"message": "Customer Created"
+	},
+	"data":{
+      "customer_id": vars.customerId,
+      "email": payload.customer.email,
+      "customer_name": payload.customer.first_name ++ payload.customer.last_name,
+      "contact": payload.customer.contact,
+      "verification_status": payload.customer.verification_status,
+      "account_number":payload.virtual_bank_account.account_number,
+      "bank_name":payload.virtual_bank_account.bank_name,
+      "branch_id":payload.virtual_bank_account.branch_id,
+      "account_type":payload.virtual_bank_account.account_type
+   }
+}]]></ee:set-payload>
+				<ee:set-attributes><![CDATA[%dw 2.0
+output application/java
+---
+attributes.StatusCode == 201]]></ee:set-attributes>
+			</ee:message>
+		</ee:transform>
+			</when>
+					<otherwise>
+				<logger level="INFO" doc:name="Logger" doc:id="d76684cd-d0eb-481d-bb66-48d160611f98" message="Customer Id doesn't exist." />
+			</otherwise>
+		</choice>
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="7491fb1d-5c79-4441-a5c7-0ff344b1b59b" message="Payload is empty."/>
+				<raise-error doc:name="Raise error" doc:id="fa6c0b1d-ffe7-46d4-9cdf-35e825c41cb3" type="PAYLOAD:NULL" description="Payload is empty."/>
+			</otherwise>
+		</choice>
+	</flow>
+</mule>

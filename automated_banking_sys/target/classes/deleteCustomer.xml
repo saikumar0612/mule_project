@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="deleteCustomerFlow" doc:id="7c4b9abc-db0c-44c9-9680-577accab1c6e" >
+		<logger level="INFO" doc:name="Logger" doc:id="42009d0a-e3a8-4f8e-a1b3-ab4eb56ea838" message="deleting customer with id :  #[vars.customer_id]"/>
+		<db:delete doc:name="Delete" doc:id="f5db764d-269b-4ca4-b305-b65e216fa2da" config-ref="Database_Config">
+			<db:sql >delete from abs_customer_details where customer_id = :customerId</db:sql>
+			<db:input-parameters ><![CDATA[#[{'customerId' : vars.customer_id}]]]></db:input-parameters>
+		</db:delete>
+		<logger level="INFO" doc:name="Logger" doc:id="7cc35937-f5d8-4b0f-a96f-4e9ee992d7f3" message="customer #[vars.customer_id] deleted successfully."/>
+		<ee:transform doc:name="Transform Message" doc:id="4fa38d77-5bf4-474f-a7b4-4c684586dac2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"Status" : 'Customer deleted successfully'
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

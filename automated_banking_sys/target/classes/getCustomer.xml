@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="getCustomerFlow" doc:id="28e5d81e-022b-49d8-8fd5-4fa08c235ba6" >
+		<logger level="INFO" doc:name="Logger" doc:id="11fdebef-f57f-4974-a8c2-39ef9e1e2412" message="Getting customer for id: #[vars.customer_id]" category="getCustomer"/>
+		<db:select doc:name="Select" doc:id="7c2f3866-fdf3-426b-b180-585d6f6015e1" config-ref="Database_Config">
+			<db:sql >SELECT * from abs_customer_details where customer_id = :customerId</db:sql>
+			<db:input-parameters ><![CDATA[#[{'customerId' : vars.customer_id}]]]></db:input-parameters>
+		</db:select>
+		<logger level="INFO" doc:name="Logger" doc:id="a6d7f55e-0539-4492-bff1-43951b1fcad2" />
+		<ee:transform doc:name="Transform Message" doc:id="58cc87e7-5b5c-4788-8e88-e1295eb75a7c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	'Customer_Data': payload
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

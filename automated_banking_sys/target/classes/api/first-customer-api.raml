@@ -1,0 +1,75 @@
+#%RAML 1.0
+title: first-customer-api
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/e64d88da-c1ea-4846-98dd-c6f30655f769/
+version: v1
+protocols:
+  - http
+
+/createCustomer:
+  post:
+    description: this endpoint would be used to create a new customer.
+    body:
+      application/json:
+        example: !include Examples/createCustomerRequestExample.raml
+          
+    responses:
+      201:
+        body:
+          application/json:
+            type: object
+            example: !include Examples/createCustomerResponseExample.raml
+      500:
+        body:
+          application/json:
+            type: object
+            example: !include Errors/Error.raml
+
+/getCustomer/{customer_id}:
+    get:
+      description: this endpoint would be used to get customer based on customer id passed through uri parameter.
+      responses:
+        200:
+          body:
+            application/json:
+              type: object
+              example: !include Examples/getCustomerResponseExample.raml
+        500:
+          body:
+            application/json:
+              type: object
+              example: !include Errors/Error.raml
+
+/getAllCustomers:
+  get:
+    description: this endpoint would be used to get all customers
+    responses:
+      200:
+        body:
+            application/json:
+              type: object
+              example: !include Examples/getAllCustomersResponseExample.raml
+      500:
+        body:
+          application/json:
+            type: object
+            example: !include Errors/Error.raml
+
+/deleteCustomer:
+  delete:
+    queryParameters:
+      customer_id:
+        type: string
+    responses:
+      200:
+        body:
+            application/json:
+              type: object
+              example: |
+                {
+                  "Status": "Customer deleted successfully"
+                }
+      500:
+        body:
+          application/json:
+            type: object
+            example: !include Errors/Error.raml

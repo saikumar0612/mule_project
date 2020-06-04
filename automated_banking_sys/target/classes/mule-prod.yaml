@@ -1,0 +1,9 @@
+"database":
+  "host": "db4free.net"
+  "port": "3306"
+  "user": "test_db8"
+  "password": "test_db8"
+  "name": "abs_schema"
+  
+"http":
+  "port": "8082"

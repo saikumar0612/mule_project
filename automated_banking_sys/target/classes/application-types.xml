@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="input" format="json">
+      <types:shape format="weave" example="examples/inputPayload.json"><![CDATA[%dw 2.0
+
+type input = {|
+  email: String, 
+  first_name: String, 
+  last_name: String, 
+  contact: Number {"typeId": "int"}
+|} {"example": "{\\\"email\\\":\\\"john@test.com\\\",\\\"first_name\\\":\\\"John\\\",\\\"last_name\\\":\\\"Doe\\\",\\\"contact\\\":1234567890}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="output" format="xml">
+      <types:example format="xml" element="user" location="examples/outputPayload.xml"/>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#0cc137f5-f54e-4021-85f6-a8630c4d7ad5"/>
+  <types:enrichment select="#c37f0502-19ad-447b-8149-91c4b8d8902b"/>
+  <types:enrichment select="#d4d9aa2c-1e15-477f-90f6-d566815bff6e">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="input"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="output"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#66272852-e8b7-4293-91be-9eef5cc13be3"/>
+</types:mule>

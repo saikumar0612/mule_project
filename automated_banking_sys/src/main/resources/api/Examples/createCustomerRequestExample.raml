@@ -1,0 +1,35 @@
+#%RAML 1.0 NamedExample
+{
+   "customer":{
+      "email":"john@test.com",
+      "first_name":"John",
+      "last_name":"Doe",
+      "contact":1234567890,
+      "verification_status":"not_verified",
+      "allow_direct_debit":false,
+      "card_status":"no_card",
+      "object":"customer",
+      "preferred_currency_code":"USD",
+      "promotional_credits":0,
+      "refundable_credits":0,
+      "billing_address":{
+         "city":"Walnut",
+         "country":"US",
+         "street":"PO Box 9999",
+         "state":"California",
+         "state_code":"CA",
+         "address_verification_status":"not_verified",
+         "zip":"91789"
+      }
+   },
+   "virtual_bank_account":{
+      "account_number":"94d4904f50",
+      "bank_name":"TEST BANK",
+      "branch_id":"DERBY6",
+      "account_type":"Saving_AC",
+      "balance":{
+         "currency":"USD",
+         "amount":"10"
+      }
+   }
+}

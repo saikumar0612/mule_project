@@ -1,0 +1,379 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The Root Schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "additionalProperties": true,
+    "required": [
+        "customer",
+        "virtual_bank_account"
+    ],
+    "properties": {
+        "customer": {
+            "$id": "#/properties/customer",
+            "type": "object",
+            "title": "The Customer Schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "card_status": "no_card",
+                    "object": "customer",
+                    "email": "john@test.com123",
+                    "contact": "123-456-6767",
+                    "first_name": "John",
+                    "allow_direct_debit": false,
+                    "last_name": "Doe",
+                    "refundable_credits": 0.0,
+                    "preferred_currency_code": "USD",
+                    "promotional_credits": 0.0,
+                    "billing_address": {
+                        "zip": "91789",
+                        "street": "PO Box 9999",
+                        "country": "US",
+                        "state": "California",
+                        "state_code": "CA",
+                        "address_verification_status": "not_verified",
+                        "city": "Walnut"
+                    },
+                    "verification_status": "not_verified"
+                }
+            ],
+            "additionalProperties": true,
+            "required": [
+                "email",
+                "first_name",
+                "last_name",
+                "contact",
+                "verification_status",
+                "allow_direct_debit",
+                "card_status",
+                "object",
+                "billing_address"
+            ],
+            "properties": {
+                "email": {
+                    "$id": "#/properties/customer/properties/email",
+                    "type": "string",
+                    "title": "The Email Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "john@test.com123"
+                    ]
+                },
+                "first_name": {
+                    "$id": "#/properties/customer/properties/first_name",
+                    "type": "string",
+                    "title": "The First_name Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "John"
+                    ]
+                },
+                "last_name": {
+                    "$id": "#/properties/customer/properties/last_name",
+                    "type": "string",
+                    "title": "The Last_name Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "Doe"
+                    ]
+                },
+                "contact": {
+                    "$id": "#/properties/customer/properties/contact",
+                    "type": "string",
+                    "title": "The Contact Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "123-456-6767"
+                    ]
+                },
+                "verification_status": {
+                    "$id": "#/properties/customer/properties/verification_status",
+                    "type": "string",
+                    "title": "The Verification_status Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "not_verified"
+                    ]
+                },
+                "allow_direct_debit": {
+                    "$id": "#/properties/customer/properties/allow_direct_debit",
+                    "type": "boolean",
+                    "title": "The Allow_direct_debit Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": false,
+                    "examples": [
+                        false
+                    ]
+                },
+                "card_status": {
+                    "$id": "#/properties/customer/properties/card_status",
+                    "type": "string",
+                    "title": "The Card_status Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "no_card"
+                    ]
+                },
+                "object": {
+                    "$id": "#/properties/customer/properties/object",
+                    "type": "string",
+                    "title": "The Object Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "customer"
+                    ]
+                },
+                "preferred_currency_code": {
+                    "$id": "#/properties/customer/properties/preferred_currency_code",
+                    "type": "string",
+                    "title": "The Preferred_currency_code Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "USD"
+                    ]
+                },
+                "promotional_credits": {
+                    "$id": "#/properties/customer/properties/promotional_credits",
+                    "type": "integer",
+                    "title": "The Promotional_credits Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        0.0
+                    ]
+                },
+                "refundable_credits": {
+                    "$id": "#/properties/customer/properties/refundable_credits",
+                    "type": "integer",
+                    "title": "The Refundable_credits Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        0.0
+                    ]
+                },
+                "billing_address": {
+                    "$id": "#/properties/customer/properties/billing_address",
+                    "type": "object",
+                    "title": "The Billing_address Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": {},
+                    "examples": [
+                        {
+                            "address_verification_status": "not_verified",
+                            "state_code": "CA",
+                            "city": "Walnut",
+                            "zip": "91789",
+                            "street": "PO Box 9999",
+                            "country": "US",
+                            "state": "California"
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "required": [
+                        "city",
+                        "country",
+                        "street",
+                        "state",
+                        "state_code",
+                        "address_verification_status",
+                        "zip"
+                    ],
+                    "properties": {
+                        "city": {
+                            "$id": "#/properties/customer/properties/billing_address/properties/city",
+                            "type": "string",
+                            "title": "The City Schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": "",
+                            "examples": [
+                                "Walnut"
+                            ]
+                        },
+                        "country": {
+                            "$id": "#/properties/customer/properties/billing_address/properties/country",
+                            "type": "string",
+                            "title": "The Country Schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": "",
+                            "examples": [
+                                "US"
+                            ]
+                        },
+                        "street": {
+                            "$id": "#/properties/customer/properties/billing_address/properties/street",
+                            "type": "string",
+                            "title": "The Street Schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": "",
+                            "examples": [
+                                "PO Box 9999"
+                            ]
+                        },
+                        "state": {
+                            "$id": "#/properties/customer/properties/billing_address/properties/state",
+                            "type": "string",
+                            "title": "The State Schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": "",
+                            "examples": [
+                                "California"
+                            ]
+                        },
+                        "state_code": {
+                            "$id": "#/properties/customer/properties/billing_address/properties/state_code",
+                            "type": "string",
+                            "title": "The State_code Schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": "",
+                            "examples": [
+                                "CA"
+                            ]
+                        },
+                        "address_verification_status": {
+                            "$id": "#/properties/customer/properties/billing_address/properties/address_verification_status",
+                            "type": "string",
+                            "title": "The Address_verification_status Schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": "",
+                            "examples": [
+                                "not_verified"
+                            ]
+                        },
+                        "zip": {
+                            "$id": "#/properties/customer/properties/billing_address/properties/zip",
+                            "type": "string",
+                            "title": "The Zip Schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": "",
+                            "examples": [
+                                "91789"
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "virtual_bank_account": {
+            "$id": "#/properties/virtual_bank_account",
+            "type": "object",
+            "title": "The Virtual_bank_account Schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "branch_id": "DERBY6",
+                    "bank_name": "TEST BANK",
+                    "account_number": "94d4904f50",
+                    "account_type": "Saving_AC",
+                    "balance": {
+                        "amount": "10",
+                        "currency": "USD"
+                    }
+                }
+            ],
+            "additionalProperties": true,
+            "required": [
+                "account_number",
+                "bank_name",
+                "branch_id",
+                "account_type",
+                "balance"
+            ],
+            "properties": {
+                "account_number": {
+                    "$id": "#/properties/virtual_bank_account/properties/account_number",
+                    "type": "string",
+                    "title": "The Account_number Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "94d4904f50"
+                    ]
+                },
+                "bank_name": {
+                    "$id": "#/properties/virtual_bank_account/properties/bank_name",
+                    "type": "string",
+                    "title": "The Bank_name Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "TEST BANK"
+                    ]
+                },
+                "branch_id": {
+                    "$id": "#/properties/virtual_bank_account/properties/branch_id",
+                    "type": "string",
+                    "title": "The Branch_id Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "DERBY6"
+                    ]
+                },
+                "account_type": {
+                    "$id": "#/properties/virtual_bank_account/properties/account_type",
+                    "type": "string",
+                    "title": "The Account_type Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "Saving_AC"
+                    ]
+                },
+                "balance": {
+                    "$id": "#/properties/virtual_bank_account/properties/balance",
+                    "type": "object",
+                    "title": "The Balance Schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": {},
+                    "examples": [
+                        {
+                            "amount": "10",
+                            "currency": "USD"
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "required": [
+                        "currency",
+                        "amount"
+                    ],
+                    "properties": {
+                        "currency": {
+                            "$id": "#/properties/virtual_bank_account/properties/balance/properties/currency",
+                            "type": "string",
+                            "title": "The Currency Schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": "",
+                            "examples": [
+                                "USD"
+                            ]
+                        },
+                        "amount": {
+                            "$id": "#/properties/virtual_bank_account/properties/balance/properties/amount",
+                            "type": "string",
+                            "title": "The Amount Schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": "",
+                            "examples": [
+                                "10"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
